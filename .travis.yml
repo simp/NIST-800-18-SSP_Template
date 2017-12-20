@@ -1,0 +1,23 @@
+---
+dist: trusty
+sudo: false
+language: python
+notifications:
+  email: false
+python:
+  - 2.7
+# before_install: rm Gemfile.lock || true
+install:
+  - pip install -q -r requirements.txt
+  # - bundle install
+
+jobs:
+  include:
+    - stage: Python unit tests
+
+    - stage: Sphinx HTML build
+      script: sphinx-build -n -b html -d sphinx_cache docs html
+
+    - stage: Sphinx link check
+      script: sphinx-build -E -n -b linkcheck docs linkcheck
+
